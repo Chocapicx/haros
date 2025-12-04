@@ -72,15 +72,19 @@ THE SOFTWARE.
        * 1 Minor : everything else
        */
       var violations = this.get("analysis").violations;
-      if (Object.keys().length === 0) {
+      if (Object.keys(violations).length === 0) {
         return 0;
       } else if (
-        Object.keys().includes("haros_plugin_cppcheck:harosIntegerTypes")
+        Object.keys(violations).includes(
+"haros_plugin_cppcheck:harosIntegerTypes"
+)
       ) {
         return 3;
       } else if (
-        Object.keys().includes("haros_plugin_cppcheck:cppcheckRule") ||
-        Object.keys().includes("haros_plugin_cppcheck:unreadVariable")
+        Object.keys(violations).includes(
+"haros_plugin_cppcheck:cppcheckRule"
+) ||
+        Object.keys(violations).includes("haros_plugin_cppcheck:unreadVariable")
       ) {
         return 2;
       } else {
