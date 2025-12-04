@@ -62,7 +62,31 @@ THE SOFTWARE.
             }
             for (i = violations.length; i--;) sum += violations[i];
             return sum;
-        }
+        },
+
+    getCriticalLevel: function () {
+      /*
+       * Issue ranking levels for proof of concept
+       * 3 Critical: type-safety
+       * 2 Safety: cpp-check / redundancy
+       * 1 Minor : everything else
+       */
+      var violations = this.get("analysis").violations;
+      if (Object.keys().length === 0) {
+        return 0;
+      } else if (
+        Object.keys().includes("haros_plugin_cppcheck:harosIntegerTypes")
+      ) {
+        return 3;
+      } else if (
+        Object.keys().includes("haros_plugin_cppcheck:cppcheckRule") ||
+        Object.keys().includes("haros_plugin_cppcheck:unreadVariable")
+      ) {
+        return 2;
+      } else {
+        return 1;
+      }
+    },
     });
 
     Models.PackageCollection = Backbone.Collection.extend({

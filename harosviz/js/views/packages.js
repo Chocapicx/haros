@@ -341,7 +341,8 @@ THE SOFTWARE.
             this.metapackage = null;
             // this.score = this.model.getViolations() / (this.model.get("size") || 1);
             var s = ((this.model.get("lines") || 1) * 0.75) / 12;
-            this.score = 10 * this.model.getViolations() / s;
+      // this.score = 10 * this.model.getViolations() / s;
+      this.score = this.model.getCriticalLevel();
 
             this.d3g = d3.select(this.el).attr("class", "node").on("click", this.onClick);
             this.d3node = this.d3g.append("circle");
@@ -370,7 +371,8 @@ THE SOFTWARE.
             var violations = this.model.getViolations(rules, ignore);
             // this.score = violations / (this.model.get("size") || 1);
             var s = ((this.model.get("lines") || 1) * 0.75) / 12;
-            this.score = 10 * violations / s;
+      //this.score = (10 * violations) / s;
+      this.score = this.model.getCriticalLevel();
             this.applyColor();
             //console.log(this.model.id, violations, this.score);
         },
@@ -388,23 +390,18 @@ THE SOFTWARE.
         },
 
         applyColor: function () {
+//HERE
             if (this.score === 0)
                 this.d3node.attr("style", "fill: rgb(255, 255, 255);");
-            else if (this.score > 10)
+            else if (this.score == 3)
                 this.d3node.attr("style", "fill: rgb(255,99,71);");
-            else if (this.score > 6.6667)
-                this.d3node.attr("style", "fill: rgb(255,165,59);");
-            else if (this.score > 4)
+            else if (this.score == 2)
                 this.d3node.attr("style", "fill: rgb(255,241,47);");
-            else if (this.score > 2)
-                this.d3node.attr("style", "fill: rgb(183,255,35);");
-            else if (this.score > 1.5)
+            else if (this.score == 1)
                 this.d3node.attr("style", "fill: rgb(89,255,23);");
-            else if (this.score > 1)
-                this.d3node.attr("style", "fill: rgb(11,255,37);");
-            else
-                this.d3node.attr("style", "fill: rgb(0,255,126);");
-        }
+            //This should never happem
+            else                 this.d3node.attr("style", "fill: rgb(0,0,0);");
+        },
     });
 
 
